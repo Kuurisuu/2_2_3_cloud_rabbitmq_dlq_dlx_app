@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: order-processor-dlq
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 1
+        default-requeue-rejected: false
+        retry:
+          enabled: true
+          initial-interval: 1000
+          max-interval: 10000
+          multiplier: 2.0
+          max-attempts: 3
+
+server:
+  port: 8080
+
+app:
+  # Probabilidad de que cada intento falle (0.0 a 1.0)
+  failure-rate: 0.5
+  # Tiempo simulado de procesamiento por intento
+  processing-time-ms: 800
+  cors-origin: http://localhost:5173
